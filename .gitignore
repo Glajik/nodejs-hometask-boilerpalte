@@ -107,3 +107,6 @@ database.json
 result.txt
 result.json
 temp-repo
+
+# Lock file
+yarn.lock
