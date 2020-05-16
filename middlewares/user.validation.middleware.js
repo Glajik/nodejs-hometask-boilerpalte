@@ -17,7 +17,7 @@ const isValidPhone = (phone) => {
 }
 
 const isValidPwd = (pwd) => {
-    const regex = /^[0-9a-zA-Z!@#$%^&*]{8,}$/;
+    const regex = /^[0-9a-zA-Z!@#$%^&*]{3,}$/;
     return !!pwd && regex.test(pwd);
 }
 
