@@ -1,27 +1,16 @@
 // Middleware that returns result of the query
-const responseMiddleware = (err, req, res, next) => {
-    switch (err.message) {
-        case 'USER_NOT_FOUND':
-            res.status(404).json({
-                error: true,
-                message: 'User not found',
-            });
-            break;
-            
-        case 'USER_CREATE_ERROR':
-            res.status(400).json({
-                error: true,
-                message: 'User entity to create isn\'t valid',
-            });
-            break;
-
-        default:
-            res.status(500).json({
-                error: true,
-                message: err.message,
-            });
+const responseMiddleware = (req, res, next) => {
+    if (res.err) {
+        res.status(404).json({
+            error: true,
+            message: res.err.message,
+        });
+        return next();
     }
-    next();
+    if (res.data) {
+        res.status(200).json(res.data);
+        return next();
+    }
 }
 
 exports.responseMiddleware = responseMiddleware;
