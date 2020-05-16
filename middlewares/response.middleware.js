@@ -1,7 +1,18 @@
+const getCode = (err) => {
+    switch (err.type) {
+        case 'validation':
+            return 400;
+    
+        default:
+            return 404;
+    }
+}
+
 // Middleware that returns result of the query
 const responseMiddleware = (req, res, next) => {
     if (res.err) {
-        res.status(404).json({
+        const code = getCode(res.err);
+        res.status(code).json({
             error: true,
             message: res.err.message,
         });
