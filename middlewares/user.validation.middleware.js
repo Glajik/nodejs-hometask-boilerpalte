@@ -50,7 +50,9 @@ const createUserValid = (req, res, next) => {
     ];
     
     if (validations.some(item => item === false)) {
-        throw new Error('USER_CREATE_ERROR');
+        const err = new Error('User entity to create isn\'t valid');
+        err.type = 'validation';
+        res.err = err;
     }
 
     console.log('createUserValid')

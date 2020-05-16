@@ -11,8 +11,8 @@ router.use(createUserValid);
 
 // Create new user
 router.post('/', (req, res, next) => {
-  console.log('POST')
-  res.status(201).json({ message: 'User created' });
+  res.data = {};
+  next();
 });
 
 router.use(responseMiddleware);
