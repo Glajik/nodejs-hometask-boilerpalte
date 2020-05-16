@@ -7,4 +7,14 @@ const router = Router();
 
 // TODO: Implement route controllers for user
 
+router.use(createUserValid);
+
+// Create new user
+router.post('/', (req, res, next) => {
+  console.log('POST')
+  res.status(201).json({ message: 'User created' });
+});
+
+router.use(responseMiddleware);
+
 module.exports = router;
