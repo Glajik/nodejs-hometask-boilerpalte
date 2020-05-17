@@ -29,6 +29,29 @@ class FighterService {
         return FighterRepository.getAll();
     }
 
+    update(id, fighterData) {
+        const {
+            name,
+            health,
+            power,
+            defense,
+        } = fighterData;
+
+        // Is user exist?
+        const item = this.search({ id });
+
+        if (!item) {
+            return null;
+        }
+
+        return FighterRepository.update(id, {
+            name,
+            health,
+            power,
+            defense,
+        });
+    }
+
     search(search) {
         const item = FighterRepository.getOne(search);
         if(!item) {
