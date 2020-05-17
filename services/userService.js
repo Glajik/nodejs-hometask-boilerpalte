@@ -27,6 +27,10 @@ class UserService {
             password,
         });
     }
+    
+    delete(id) {
+        return UserRepository.delete(id);
+    }
 
     search(search) {
         const item = UserRepository.getOne(search);
