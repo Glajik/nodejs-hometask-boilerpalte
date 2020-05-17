@@ -27,6 +27,24 @@ router.post('/', (req, res, next) => {
   }
 });
 
+// Delete user
+router.delete('/:id', (req, res, next) => {
+  const { id } = req.params;
+  
+  try {
+    const result = UserService.delete(id);
+    if (!result.length) {
+      throw new Error('User entity to delete is not exist');
+    }
+    res.data = {};
+  } catch (error) {
+    res.err = error;
+    res.type = 'delete';
+  } finally {
+    next();
+  }
+});
+
 router.use(responseMiddleware);
 
 module.exports = router;
