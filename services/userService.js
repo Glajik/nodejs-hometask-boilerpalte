@@ -1,8 +1,7 @@
 const { UserRepository } = require('../repositories/userRepository');
 
+// Methods to work with user
 class UserService {
-
-    // TODO: Implement methods to work with user
     create(userData) {
         const {
             firstName,
@@ -26,10 +25,6 @@ class UserService {
             phoneNumber,
             password,
         });
-    }
-    
-    delete(id) {
-        return UserRepository.delete(id);
     }
 
     read() {
@@ -59,6 +54,10 @@ class UserService {
             phoneNumber,
             password,
         });
+    }
+
+    delete(id) {
+        return UserRepository.delete(id);
     }
 
     search(search) {

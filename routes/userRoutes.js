@@ -10,40 +10,22 @@ const router = Router();
 router.use(createUserValid);
 router.use(updateUserValid);
 
-// Create new user
-router.post('/', (req, res, next) => {
-  const userData = req.body;
-  
+// Get all users
+router.get('/', (req, res, next) => {
   try {
-    const result = UserService.create(userData);
+    const result = UserService.read();
     if (!result) {
-      throw new Error('User already exist');
+      throw new Error('No users');
     }
-    res.data = {};
+    res.data = result;
   } catch (error) {
-    error.type = 'create';
+    error.type = 'not_found';
     res.err = error;
   } finally {
     next();
   }
-});
-
-// Delete user
-router.delete('/:id', (req, res, next) => {
-  const { id } = req.params;
-  
-  try {
-    const result = UserService.delete(id);
-    if (!result.length) {
-      throw new Error('User entity to delete is not exist');
-    }
-    res.data = {};
-  } catch (error) {
-    error.type = 'delete';
-    res.err = error;
-  } finally {
-    next();
-  }
+  res.data = {};
+  next();
 });
 
 // Get user
@@ -66,24 +48,25 @@ router.get('/:id', (req, res, next) => {
   next();
 });
 
-// Get all users
-router.get('/', (req, res, next) => {
+// Create user
+router.post('/', (req, res, next) => {
+  const userData = req.body;
+  
   try {
-    const result = UserService.read();
-    if (!result.length) {
-      throw new Error('No any user');
+    const result = UserService.create(userData);
+    if (!result) {
+      throw new Error('User already exist');
     }
-    res.data = result;
+    res.data = {};
   } catch (error) {
-    error.type = 'not_found';
+    error.type = 'create';
     res.err = error;
   } finally {
     next();
   }
-  res.data = {};
-  next();
 });
 
+// Update user
 router.put('/:id', (req, res, next) => {
   const { id } = req.params;
   const userData = req.body;
@@ -102,6 +85,25 @@ router.put('/:id', (req, res, next) => {
   }
   res.data = {};
   next();
+});
+
+
+// Delete user
+router.delete('/:id', (req, res, next) => {
+  const { id } = req.params;
+  
+  try {
+    const result = UserService.delete(id);
+    if (!result.length) {
+      throw new Error('User entity to delete is not exist');
+    }
+    res.data = {};
+  } catch (error) {
+    error.type = 'delete';
+    res.err = error;
+  } finally {
+    next();
+  }
 });
 
 router.use(responseMiddleware);
