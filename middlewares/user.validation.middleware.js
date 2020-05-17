@@ -26,6 +26,10 @@ const compareLists = (a, b) => a.filter(v => !b.includes(v));
 
 // Validatior for user entity during creation
 const createUserValid = (req, res, next) => {
+    if (req.method !== 'POST') {
+        return next();
+    }
+
     const {
         firstName,
         lastName,
@@ -60,6 +64,9 @@ const createUserValid = (req, res, next) => {
 }
 
 const updateUserValid = (req, res, next) => {
+    if (req.method !== 'PUT') {
+        return next();
+    }
     // TODO: Implement validatior for user entity during update
 
     next();
