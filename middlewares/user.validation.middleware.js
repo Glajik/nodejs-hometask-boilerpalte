@@ -24,25 +24,20 @@ const isValidPwd = (pwd) => {
 // Compare two lists
 const compareLists = (a, b) => a.filter(v => !b.includes(v));
 
-// Validatior for user entity during creation
-const createUserValid = (req, res, next) => {
-    if (req.method !== 'POST') {
-        return next();
-    }
-
+const validate = (userData) => {
     const {
         firstName,
         lastName,
         email,
         phoneNumber,
         password,
-    } = req.body;
+    } = userData;
 
-    const requestFields = Object.keys(req.body);
+    const requestFields = Object.keys(userData);
     const modelFields = Object.keys(user);
 
     const fieldDifference = compareLists(requestFields, modelFields);
-
+    
     const validations = [
         !fieldDifference.length,
         !requestFields.includes('id'),
@@ -53,21 +48,43 @@ const createUserValid = (req, res, next) => {
         isValidPwd(password),
     ];
     
-    if (validations.some(item => item === false)) {
+    return validations.every(item => item === true);
+}
+
+// Validatior for user entity during creation
+const createUserValid = (req, res, next) => {
+    if (req.method !== 'POST') {
+        return next();
+    }
+
+    const userData = req.body;
+
+    const isValid = validate(userData);
+    
+    if (!isValid) {
         const err = new Error('User entity to create isn\'t valid');
         err.type = 'validation';
         res.err = err;
     }
 
-    console.log('createUserValid')
     next();
 }
 
+// Validatior for user entity during update
 const updateUserValid = (req, res, next) => {
     if (req.method !== 'PUT') {
         return next();
     }
-    // TODO: Implement validatior for user entity during update
+
+    const userData = req.body;
+
+    const isValid = validate(userData);
+
+    if (!isValid) {
+        const err = new Error('User entity to update isn\'t valid');
+        err.type = 'validation';
+        res.err = err;
+    }
 
     next();
 }

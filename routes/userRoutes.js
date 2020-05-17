@@ -8,6 +8,7 @@ const router = Router();
 // TODO: Implement route controllers for user
 
 router.use(createUserValid);
+router.use(updateUserValid);
 
 // Create new user
 router.post('/', (req, res, next) => {
