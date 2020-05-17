@@ -20,8 +20,8 @@ router.post('/', (req, res, next) => {
     }
     res.data = {};
   } catch (error) {
+    error.type = 'create';
     res.err = error;
-    res.type = 'create';
   } finally {
     next();
   }
@@ -38,8 +38,8 @@ router.delete('/:id', (req, res, next) => {
     }
     res.data = {};
   } catch (error) {
+    error.type = 'delete';
     res.err = error;
-    res.type = 'delete';
   } finally {
     next();
   }

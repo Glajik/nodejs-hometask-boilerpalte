@@ -10,6 +10,7 @@ router.post('/login', (req, res, next) => {
         AuthService.login(req.body);
         res.data = {};
     } catch (err) {
+        err.type = 'not_found';
         res.err = err;
     } finally {
         next();
