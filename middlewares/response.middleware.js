@@ -2,6 +2,8 @@ const getCode = (err) => {
     switch (err.type) {
         case 'validation':
         case 'create':
+        case 'delete':
+        case 'update':
             return 400;
     
         case 'not_found':
@@ -26,6 +28,7 @@ const responseMiddleware = (req, res, next) => {
         res.status(200).json(res.data);
         return next();
     }
+    next();
 }
 
 exports.responseMiddleware = responseMiddleware;
