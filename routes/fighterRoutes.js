@@ -47,7 +47,7 @@ router.get('/:id', (req, res, next) => {
   next();
 });
 
-// Create new fighter
+// Create fighter
 router.post('/', (req, res, next) => {
   const fighterData = req.body;
   
@@ -65,6 +65,7 @@ router.post('/', (req, res, next) => {
   }
 });
 
+// Update fighter
 router.put('/:id', (req, res, next) => {
   const { id } = req.params;
   const fighterData = req.body;
@@ -83,6 +84,24 @@ router.put('/:id', (req, res, next) => {
   }
   res.data = {};
   next();
+});
+
+// Delete fighter
+router.delete('/:id', (req, res, next) => {
+  const { id } = req.params;
+  
+  try {
+    const result = FighterService.delete(id);
+    if (!result.length) {
+      throw new Error('Fighter entity to delete is not exist');
+    }
+    res.data = {};
+  } catch (error) {
+    error.type = 'delete';
+    res.err = error;
+  } finally {
+    next();
+  }
 });
 
 router.use(responseMiddleware);

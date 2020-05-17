@@ -52,6 +52,10 @@ class FighterService {
         });
     }
 
+    delete(id) {
+        return FighterRepository.delete(id);
+    }
+
     search(search) {
         const item = FighterRepository.getOne(search);
         if(!item) {
