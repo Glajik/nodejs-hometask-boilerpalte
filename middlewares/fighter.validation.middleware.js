@@ -6,7 +6,7 @@ const isValidName = (username) => {
 }
 
 const isValidPower = (power) => {
-    return typeof(power) === 'number' && power <= 10;
+    return typeof(power) === 'number' && power < 100;
 }
 
 // Compare two lists
