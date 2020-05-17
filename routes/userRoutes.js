@@ -83,6 +83,26 @@ router.get('/', (req, res, next) => {
   next();
 });
 
+router.put('/:id', (req, res, next) => {
+  const { id } = req.params;
+  const userData = req.body;
+
+  try {
+    const result = UserService.update(id, userData);
+    if (!result) {
+      throw new Error('User entity to update is not exist');
+    }
+    res.data = {};
+  } catch (error) {
+    error.type = 'not_found';
+    res.err = error;
+  } finally {
+    next();
+  }
+  res.data = {};
+  next();
+});
+
 router.use(responseMiddleware);
 
 module.exports = router;
