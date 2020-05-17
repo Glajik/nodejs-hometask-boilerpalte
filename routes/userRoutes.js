@@ -50,6 +50,10 @@ router.get('/:id', (req, res, next) => {
 
 // Create user
 router.post('/', (req, res, next) => {
+  if (req.err) {
+    return next();
+  }
+
   const userData = req.body;
   
   try {
@@ -68,6 +72,10 @@ router.post('/', (req, res, next) => {
 
 // Update user
 router.put('/:id', (req, res, next) => {
+  if (req.err) {
+    return next();
+  }
+  
   const { id } = req.params;
   const userData = req.body;
 

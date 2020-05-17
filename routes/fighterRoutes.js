@@ -49,6 +49,10 @@ router.get('/:id', (req, res, next) => {
 
 // Create fighter
 router.post('/', (req, res, next) => {
+  if (res.err) {
+    return next();
+  }
+
   const fighterData = req.body;
   
   try {
@@ -67,6 +71,10 @@ router.post('/', (req, res, next) => {
 
 // Update fighter
 router.put('/:id', (req, res, next) => {
+  if (res.err) {
+    return next();
+  }
+
   const { id } = req.params;
   const fighterData = req.body;
 
