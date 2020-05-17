@@ -1,12 +1,70 @@
 const { fighter } = require('../models/fighter');
 
+const isValidName = (username) => {
+    const regex = /^[a-zA-Z\-]+$/;
+    return !!username && regex.test(username);
+}
+
+const isValidPower = (power) => {
+    return typeof(power) === 'number' && power <= 10;
+}
+
+// Compare two lists
+const compareLists = (a, b) => a.filter(v => !b.includes(v));
+
+const validate = (fighterData) => {
+    const { name, power } = fighterData;
+
+    const requestFields = Object.keys(fighterData);
+    const modelFields = Object.keys(fighter);
+
+    const fieldDifference = compareLists(requestFields, modelFields);
+    
+    const validations = [
+        !fieldDifference.length,
+        !requestFields.includes('id'),
+        isValidName(name),
+        isValidPower(power),
+    ];
+    
+    return validations.every(item => item === true);
+}
+
+// Validatior for fighter entity during creation
 const createFighterValid = (req, res, next) => {
-    // TODO: Implement validatior for fighter entity during creation
+    if (req.method !== 'POST') {
+        return next();
+    }
+
+    const fighterData = req.body;
+
+    const isValid = validate(fighterData);
+    
+    if (!isValid) {
+        const err = new Error('Fighter entity to create isn\'t valid');
+        err.type = 'validation';
+        res.err = err;
+    }
+
     next();
 }
 
+// Validatior for fighter entity during update
 const updateFighterValid = (req, res, next) => {
-    // TODO: Implement validatior for fighter entity during update
+    if (req.method !== 'PUT') {
+        return next();
+    }
+
+    const fighterData = req.body;
+
+    const isValid = validate(fighterData);
+    
+    if (!isValid) {
+        const err = new Error('Fighter entity to update isn\'t valid');
+        err.type = 'validation';
+        res.err = err;
+    }
+
     next();
 }
 
