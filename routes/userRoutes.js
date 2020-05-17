@@ -70,8 +70,8 @@ router.get('/:id', (req, res, next) => {
 router.get('/', (req, res, next) => {
   try {
     const result = UserService.read();
-    if (!result) {
-      throw new Error('No users');
+    if (!result.length) {
+      throw new Error('No any user');
     }
     res.data = result;
   } catch (error) {
