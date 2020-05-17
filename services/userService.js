@@ -32,6 +32,10 @@ class UserService {
         return UserRepository.delete(id);
     }
 
+    read() {
+        return UserRepository.getAll();
+    }
+
     search(search) {
         const item = UserRepository.getOne(search);
         if(!item) {
