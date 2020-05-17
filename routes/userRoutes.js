@@ -11,23 +11,20 @@ router.use(createUserValid);
 
 // Create new user
 router.post('/', (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    phoneNumber,
-    password,
-  } = req.body;
-
-  // Can't create if user exist
-  const user = UserService.search({ email });
-  if (user) {
-    res.err = new Error('User already exist');
-    return next();
+  const userData = req.body;
+  
+  try {
+    const result = UserService.create(userData);
+    if (!result) {
+      throw new Error('User already exist');
+    }
+    res.data = {};
+  } catch (error) {
+    res.err = error;
+    res.type = 'create';
+  } finally {
+    next();
   }
-
-  res.data = {};
-  next();
 });
 
 router.use(responseMiddleware);

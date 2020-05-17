@@ -1,10 +1,14 @@
 const getCode = (err) => {
     switch (err.type) {
         case 'validation':
+        case 'create':
             return 400;
     
-        default:
+        case 'not_found':
             return 404;
+            
+        default:
+            return 500;
     }
 }
 
