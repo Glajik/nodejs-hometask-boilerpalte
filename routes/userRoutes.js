@@ -45,6 +45,26 @@ router.delete('/:id', (req, res, next) => {
   }
 });
 
+// Get user
+router.get('/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const result = UserService.search({ id });
+    if (!result) {
+      throw new Error('User not found');
+    }
+    res.data = result;
+  } catch (error) {
+    error.type = 'not_found';
+    res.err = error;
+  } finally {
+    next();
+  }
+  res.data = {};
+  next();
+});
+
 router.use(responseMiddleware);
 
 module.exports = router;
