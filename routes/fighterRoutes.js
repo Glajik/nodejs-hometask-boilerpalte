@@ -47,6 +47,24 @@ router.get('/:id', (req, res, next) => {
   next();
 });
 
+// Create new fighter
+router.post('/', (req, res, next) => {
+  const fighterData = req.body;
+  
+  try {
+    const result = FighterService.create(fighterData);
+    if (!result) {
+      throw new Error('Fighter already exist');
+    }
+    res.data = {};
+  } catch (error) {
+    error.type = 'create';
+    res.err = error;
+  } finally {
+    next();
+  }
+});
+
 router.use(responseMiddleware);
 
 module.exports = router;
