@@ -27,6 +27,26 @@ router.get('/', (req, res, next) => {
   next();
 });
 
+// Get fighter
+router.get('/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const result = FighterService.search({ id });
+    if (!result) {
+      throw new Error('Fighter no found');
+    }
+    res.data = result;
+  } catch (error) {
+    error.type = 'not_found';
+    res.err = error;
+  } finally {
+    next();
+  }
+  res.data = {};
+  next();
+});
+
 router.use(responseMiddleware);
 
 module.exports = router;
